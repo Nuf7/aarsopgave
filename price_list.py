@@ -44,7 +44,19 @@ class PriceList:
         """
         with open(os.path.join(self.current_dir, filename), mode="r") as file:
             reader = csv.reader(file)
-            self.pricelist = {rows[0]: float(rows[1]) for rows in reader}
+            for row in reader:
+                if len(row) == 2:  # Old format without ID
+                    product_name, price = row
+                    product_id = self.generate_product_id(product_name)
+                else:  # New format with ID
+                    product_id, product_name, price = row
+        
+                self.pricelist[product_id] = {"name": product_name, "price": float(price)}
+
+    def generate_product_id(self, product_name):
+        return "".join(word[:4].upper() for word in product_name.split())[:6]
+
+
 
     def save_pricelist(self, filename):
         """
@@ -92,4 +104,5 @@ class PriceList:
 # Example usage:
 if __name__ == "__main__":
     price_list = PriceList()
-    print(price_list.get_pricelist())
+    for product_id, data in price_list.get_pricelist().items():
+        print(f"ID: {product_id}, Name: {data['name']}, Price: {data['price']}")
