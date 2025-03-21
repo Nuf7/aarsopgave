@@ -51,7 +51,7 @@ class PriceList:
                 else:  # New format with ID
                     product_id, product_name, price = row
         
-                self.pricelist[product_id] = {"name": product_name, "price": float(price)}
+            self.pricelist[product_id] = {"name": product_name, "price": float(price)}
 
     def generate_product_id(self, product_name):
         return "".join(word[:4].upper() for word in product_name.split())[:6]

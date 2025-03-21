@@ -1,3 +1,5 @@
+import price_list
+
 class ShoppingList:
     """
     A class to represent a shopping list.
@@ -18,8 +20,11 @@ class ShoppingList:
     get_items():
         Returns the list of shopping items.
     """
-    def __init__(self):
+    price_list = price_list
+
+    def __init__(self, price_list):
         self.items = {}
+        self.price_list = {}
 
     def add_item(self, item, quantity=1):
         if item in self.items:
